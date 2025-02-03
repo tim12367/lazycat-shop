@@ -7,3 +7,7 @@ logging:
   level: 
     root: INFO
     "[uk.lazycat.shop]": DEBUG
+
+springdoc: 
+  swagger-ui: 
+    tryItOutEnabled: true # 預設try it out 已經點擊

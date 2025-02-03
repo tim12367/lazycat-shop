@@ -1,0 +1,9 @@
+spring: 
+   application: 
+     name: shop # app name
+
+# log level
+logging: 
+  level: 
+    root: INFO
+    "[uk.lazycat.shop]": DEBUG

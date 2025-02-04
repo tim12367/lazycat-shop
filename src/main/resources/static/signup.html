@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <!--共用JS-->
+    <script type="text/javascript" src="util.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .singup_form {
+            margin: auto;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+    <script>
+        function doSingUp() {
+            console.log("註冊開始...");
+
+            // 註冊
+            $.ajax({
+                url: '/singup',
+                type: 'POST',
+                data: new FormData($('#singup_form')[0]),
+                processData: false, // 不將請求處理為query string ex:{'a':1,'b':2} -> a=1&b=2
+                contentType: 'application/json',
+                success: function (result) {
+                    console.log("註冊成功");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("註冊成功!\n" + XMLHttpRequest.status + ': ' + textStatus);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <form class="singup_form" method="post">
+        <span>
+            <label for="username">帳號</label>
+            <input id="username" name="username">
+        </span>
+        <span>
+            <label for="password">密碼</label>
+            <input id="password" name="password" type="password">
+        </span>
+        <input type="button" value="註冊" onclick="doSingUp()">
+    </form>
+</body>
+
+</html>

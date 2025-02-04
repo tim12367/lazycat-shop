@@ -1,6 +1,14 @@
 spring: 
    application: 
      name: shop # app name
+   h2:
+     console:
+       enabled: true # h2控制台 http://localhost:8080/h2-console
+   datasource: 
+     driver-class-name: org.h2.Driver
+     url: jdbc:h2:mem:testdb
+     username: sa
+     password: 
 
 # log level
 logging: 

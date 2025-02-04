@@ -22,7 +22,7 @@
 				tryCount: 0, // 重試計數器(自訂屬性)
 				retryLimit: 1, // 最大重試次數(自訂屬性)
 				beforeSend: function (request) {
-					request.setRequestHeader("Authorization", localStorage.getItem("access_token")) // 送出前取token
+					request.setRequestHeader("Authorization", ('Bearer ' + localStorage.getItem("access_token"))) // 送出前取token
 				},
 				success: function () {
 					console.log("查詢成功");

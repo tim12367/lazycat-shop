@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--<classPathEntry location="lib/db2jcc4.jar" />-->
+	<context id="context1" defaultModelType="flat" targetRuntime="MyBatis3Simple"><!-- 產生的model為flat型式。產生傳統的MyBatis Mapper及可，不要產生新的Example檔 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" /><!-- 不要產生MBG的註解 -->
+            <property name="suppressDate" value="true" /><!-- 不要產生日期註解 -->
+        </commentGenerator>
+		<jdbcConnection
+			connectionURL="jdbc:h2:~/test"
+			driverClass="org.h2.Driver" userId="sa" password="">
+			<property name="nullCatalogMeansCurrent"
+                value="true" /><!-- MySQL不支援schema及catelog的設定 -->
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true" /><!-- 日期或時間戳記不使用java.util.Date，改用Java 8的java.time.LocalDate -->
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- 要產生的model位置，targetProject的值為專案的Source folder，所以是YOURPROJECT/src/main/java -->
+		<javaModelGenerator
+			targetPackage="uk.lazycat.shop.entity.shop"
+			targetProject="shop/src/main/java" >
+			<property name="enableSubPackages" value="false" />
+		</javaModelGenerator>
+		<!-- 要產生的MyBatis Mapper位置 --> 
+		<sqlMapGenerator targetPackage="mappers.shop"
+			targetProject="shop/src/main/resources" />
+		<javaClientGenerator
+			targetPackage="uk.lazycat.shop.mapper.shop"
+			targetProject="shop/src/main/java" type="XMLMAPPER" />
+		<table schema="SHOP" tableName="USERS" />
+	</context>
+</generatorConfiguration>

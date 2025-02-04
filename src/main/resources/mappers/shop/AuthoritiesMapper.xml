@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uk.lazycat.shop.mapper.shop.AuthoritiesMapper">
+  <resultMap id="BaseResultMap" type="uk.lazycat.shop.entity.shop.Authorities">
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="AUTHORITY" jdbcType="VARCHAR" property="authority" />
+  </resultMap>
+  <insert id="insert" parameterType="uk.lazycat.shop.entity.shop.Authorities">
+    insert into SHOP.AUTHORITIES (USERNAME, AUTHORITY)
+    values (#{username,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select USERNAME, AUTHORITY
+    from SHOP.AUTHORITIES
+  </select>
+</mapper>

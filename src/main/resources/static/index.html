@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Home</title>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<script>
+
+		function doRead() {
+			console.log("查詢開始...");
+			localStorage.setItem("access_token", "test") // TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+			// 登入
+			$.ajax({
+				url: '/users',
+				type: 'GET',
+				processData: false, // 不將請求處理為query string ex:{'a':1,'b':2} -> a=1&b=2
+				contentType: false,
+				tryCount: 0, // 重試計數器(自訂屬性)
+				retryLimit: 1, // 最大重試次數(自訂屬性)
+				beforeSend: function (request) {
+					request.setRequestHeader("Authorization", localStorage.getItem("access_token")) // 送出前取token
+				},
+				success: function () {
+					console.log("查詢成功");
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					// 驗證不通過，刷新token並重試
+					if (XMLHttpRequest.status == 401) {
+						console.log("身分驗證失敗!");
+						retryWithRefreshToken(this);
+
+					}
+					console.log("請求失敗! " + XMLHttpRequest.status + ': ' + textStatus);
+				}
+			});
+
+			console.log("查詢成功");
+		}
+
+		// TODO: 搬到共用js
+	</script>
 </head>
+
 <body>
-	
+	<a href="/login.html">Login</a>
 </body>
+
 </html>

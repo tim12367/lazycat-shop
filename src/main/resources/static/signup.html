@@ -33,7 +33,7 @@
                 type: 'POST',
                 data: new FormData($('#singup_form')[0]),
                 processData: false, // 不將請求處理為query string ex:{'a':1,'b':2} -> a=1&b=2
-                contentType: 'application/json',
+                contentType: false,
                 success: function (result) {
                     console.log("註冊成功");
                 },
@@ -46,7 +46,7 @@
 </head>
 
 <body>
-    <form class="singup_form" method="post">
+    <form id="singup_form" class="singup_form" method="post">
         <span>
             <label for="username">帳號</label>
             <input id="username" name="username">

@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -52,7 +51,6 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
 
 	// 異常處理 bean參數檢核錯誤(Validated)
 	@ExceptionHandler(ConstraintViolationException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST) // 預設拋出500
 	protected ResponseEntity<Object> handleMethodBeanNotValid(ConstraintViolationException e) {
 		LazycatStatusCode lazyCatStatusCode = LazycatStatusCode.PARAMETER_ERROR;
 

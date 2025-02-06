@@ -6,7 +6,8 @@ spring:
        enabled: true # h2控制台 http://localhost:8080/h2-console
    datasource: 
      driver-class-name: org.h2.Driver
-     url: jdbc:h2:~/test
+#     url: jdbc:h2:~/test # in file
+     url: jdbc:h2:mem:testdb # in memory
      username: sa
      password: 
 

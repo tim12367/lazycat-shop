@@ -36,7 +36,7 @@ public class SecurityConfig {
 		// 驗證所有請求
 		http.authorizeHttpRequests((requests) -> {
 			requests
-					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/*.html", "/*.js").permitAll()
+					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/h2-console/**", "/*.html", "/*.js").permitAll()
 					.anyRequest().authenticated();
 		});
 

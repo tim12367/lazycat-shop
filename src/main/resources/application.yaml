@@ -20,6 +20,10 @@ logging:
 mybatis:
   mapper-locations: classpath:mappers/**/*Mapper.xml
 
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
+
 springdoc: 
   swagger-ui: 
     tryItOutEnabled: true # 預設try it out 已經點擊

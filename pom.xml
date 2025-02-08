@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<!--<scope>runtime</scope>--> <!--為了在編譯時可以使用org.h2.tools.Server 建立TCP 測試用DB-->
 		</dependency>
 
 		<!--MyBatis-->

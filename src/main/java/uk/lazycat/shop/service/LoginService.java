@@ -2,6 +2,7 @@ package uk.lazycat.shop.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,9 @@ public class LoginService {
 	@Autowired
 	private AuthoritiesMapper authoritiesMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	// 註冊
 	@Transactional
 	public void singUp(String username, String password) throws LaztcatException {
@@ -37,7 +41,7 @@ public class LoginService {
 		// 插入用戶資料
 		uesrMapper.insert(Users.builder()
 				.username(username)
-				.password(password)
+				.password(passwordEncoder.encode(password))
 				.enabled(true) // 預設帳號啟用狀態
 				.build());
 

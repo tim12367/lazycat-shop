@@ -43,11 +43,23 @@ body {
 					$('#status_dialog').html(result.info);
 					$('#status_dialog').show();
 					return;
-				} else if (!result.code) {
+				} else if (result.code == '0001') { // 欄位驗證失敗
+					console.log("註冊失敗");
+					$('#status_dialog').css('color', 'red');
+					$('#status_dialog').html(JSON.parse(test.split(":")[1]).join(','));
+					$('#status_dialog').show();
+					return;
+                } else if (!result.code) { // 註冊成功
 					console.log("註冊成功");
 					$('#status_dialog').css('color', 'green');
 					$('#status_dialog').html("註冊成功");
 					$('#status_dialog').show();
+                } else {
+					$('#status_dialog').css('color', 'green');
+					$('#status_dialog').html("發生錯誤! 請聯絡系統管理員! 錯誤碼: " + result.code + ',時間: ' + new Date().toISOString());
+					$('#status_dialog').show();
+                	console.log("其他未定義失敗!");
+					console.log(result);
                 }
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {

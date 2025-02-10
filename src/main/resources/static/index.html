@@ -24,9 +24,17 @@
 	</style>
 	<script>
 
+		$(document).ready(() => {
+			var jwtData;
+			try {
+				jwtData =  JSON.parse(atob(getAccessToken().split('.')[1])); // 嘗試解析使用者登入資料
+			} catch (error) {
+				console.log("使用者尚未登入");
+			}
+		});
+
 		function doRead() {
 			console.log("查詢開始...");
-			localStorage.setItem("access_token", "test") // TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			// 登入
 			$.ajax({

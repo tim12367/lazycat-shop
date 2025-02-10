@@ -11,4 +11,6 @@ public interface AuthoritiesMapper {
 	int insert(Authorities row);
 
 	List<Authorities> selectAll();
+	
+	List<Authorities> selectByUsername(String username);
 }

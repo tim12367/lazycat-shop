@@ -13,4 +13,9 @@
     select USERNAME, AUTHORITY
     from SHOP.AUTHORITIES
   </select>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select USERNAME, AUTHORITY
+    from SHOP.AUTHORITIES
+    WHERE USERNAME = #{username,jdbcType=VARCHAR}
+  </select>
 </mapper>

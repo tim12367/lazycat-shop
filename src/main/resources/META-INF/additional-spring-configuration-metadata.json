@@ -1,0 +1,14 @@
+{
+	"properties": [
+		{
+			"name": "jwt.private.key",
+			"type": "java.lang.String",
+			"description": "RSA private key 存放位置"
+		},
+		{
+			"name": "jwt.public.key",
+			"type": "java.lang.String",
+			"description": "RSA public key 存放位置"
+		}
+	]
+}

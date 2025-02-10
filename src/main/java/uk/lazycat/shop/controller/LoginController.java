@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import uk.lazycat.shop.exception.LaztcatException;
@@ -34,7 +33,6 @@ public class LoginController {
 		return loginService.login(username, password); // 登入回傳jwt refresh token
 	}
 
-	@RolesAllowed({ "REFRESH" })
 	@PostMapping("/get-access-token")
 	public String getAccessToken(@NotNull(message = "找不到驗證資料!") Authentication authentication) throws LaztcatException {
 		return loginService.getAccessToken(authentication); // 登入回傳jwt refresh token

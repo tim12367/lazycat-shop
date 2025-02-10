@@ -3,7 +3,6 @@ package uk.lazycat.shop.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import uk.lazycat.shop.exception.SecurityExceptionHandler;
 
-@EnableMethodSecurity(jsr250Enabled = true)
 @Configuration
 public class SecurityConfig {
 
@@ -21,8 +19,10 @@ public class SecurityConfig {
 		// 驗證所有請求
 		http.authorizeHttpRequests((requests) -> {
 			requests
-					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/h2-console/**", "/*.html", "/*.js").permitAll()
+					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/h2-console/**", "/*.html", "/*.js", "/*.ico").permitAll()
 					.requestMatchers("/singup", "/login").permitAll()
+					.requestMatchers("/get-access-token").hasRole("REFRESH")
+					.requestMatchers("/**").hasRole("USER")
 					.anyRequest().authenticated();
 		});
 

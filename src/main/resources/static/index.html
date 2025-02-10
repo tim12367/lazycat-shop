@@ -26,13 +26,15 @@
 	<script>
 
 		$(document).ready(() => {
+			var username;
 			try {
 				var jwtData = JSON.parse(atob(getAccessToken().split('.')[1])); // 嘗試解析使用者登入資料
-				$('#message_block').text('歡迎 ' + jwtData.sub)
+				username = jwtData.sub;
 			} catch (error) {
 				console.log("使用者尚未登入");
-				$('#message_block').text('歡迎 ' + '請先註冊或登入')
+				username = '遊客';
 			}
+			$('#message_block').text('歡迎 ' + username)
 		});
 
 		function doRead() {

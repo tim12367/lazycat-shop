@@ -15,6 +15,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			flex-direction: column;
 			height: 100vh;
 		}
 
@@ -25,11 +26,12 @@
 	<script>
 
 		$(document).ready(() => {
-			var jwtData;
 			try {
-				jwtData =  JSON.parse(atob(getAccessToken().split('.')[1])); // 嘗試解析使用者登入資料
+				var jwtData = JSON.parse(atob(getAccessToken().split('.')[1])); // 嘗試解析使用者登入資料
+				$('#message_block').text('歡迎 ' + jwtData.sub)
 			} catch (error) {
 				console.log("使用者尚未登入");
+				$('#message_block').text('歡迎 ' + '請先註冊或登入')
 			}
 		});
 
@@ -61,14 +63,14 @@
 				}
 			});
 		}
-
-		// TODO: 搬到共用js
 	</script>
 </head>
 
 <body>
+	<div id="message_block"></div>
 	<a href="/login.html" class="login_link">登入</a>
 	<a href="/signup.html">註冊</a>
+	<a href="#" onclick="logout()">登出</a>
 </body>
 
 </html>

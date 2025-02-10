@@ -21,7 +21,7 @@ function retryWithRefreshToken(ajaxObj) {
 }
 
 // 使用refresh token 重新請求 access token
-function refreshAccessToken() {
+function refreshAccessToken(callbackFunction) {
     const refreshToken = getRefreshToken();
     if (refreshToken == null) {
         console.log("沒有登入紀錄!!請重新登入!");
@@ -40,6 +40,7 @@ function refreshAccessToken() {
         success: function (result) {
             console.log("刷新access token成功");
             setAccessToken(result);
+            callbackFunction();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log("刷新access token失敗!\n" + XMLHttpRequest.status + ': ' + textStatus);
@@ -63,4 +64,14 @@ function setAccessToken(token) {
 
 function getAccessToken() {
     return localStorage.getItem('access_token');
+}
+
+function removeTokens() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+}
+
+function logout() {
+    removeTokens();
+    window.location.assign("/login.html");//跳轉到登入
 }

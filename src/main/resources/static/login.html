@@ -26,6 +26,12 @@
 	<script>
 		function doLogin() {
 			console.log("登入開始...");
+			if (getRefreshToken()) {
+				alert('請勿重複登入!');
+				window.location.assign("/index.html");//跳轉到首頁
+				return;
+			}
+
 			// 登入
 			$.ajax({
 				url: '/login',
@@ -34,10 +40,18 @@
 				processData: false, // 不將請求處理為query string ex:{'a':1,'b':2} -> a=1&b=2
 				contentType: false,
 				success: function (result) {
-					console.log("登入成功");
-					setRefreshToken(result); // 設定refresh token
-					refreshAccessToken(); //刷新access token
-					window.location.assign("/index.html");//跳轉到首頁
+					if (!result.code) {
+						console.log("登入成功");
+						setRefreshToken(result); // 設定refresh token
+						var callbackFunction = () => {
+							window.location.assign("/index.html");//跳轉到首頁
+						}
+						refreshAccessToken(callbackFunction); //刷新access token
+					} else if (result.code == '0002') {
+						$('#status_dialog').css('color', 'red');
+						$('#status_dialog').text(result.info);
+						$('#status_dialog').show();
+					}
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
 					console.log("登入失敗!\n" + XMLHttpRequest.status + ': ' + textStatus);
@@ -51,6 +65,7 @@
 	<a href="/index.html">首頁</a>
 	<a href="#">登入</a>
 	<a href="/signup.html">註冊</a>
+	<a href="#" onclick="logout()">登出</a>
 	<form id="login_form" class="login_form" method="post">
 		<span>
 			<label for="username">帳號</label>
@@ -64,7 +79,7 @@
 			<input type="button" value="登入" onclick="doLogin()">
 			<a href="/signup.html">註冊</a>
 		</span>
-
+		<span id='status_dialog'></span>
 	</form>
 </body>
 

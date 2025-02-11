@@ -19,10 +19,12 @@ public class SecurityConfig {
 		// 驗證所有請求
 		http.authorizeHttpRequests((requests) -> {
 			requests
-					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/h2-console/**", "/*.html", "/*.js", "/*.ico").permitAll()
-					.requestMatchers("/singup", "/login").permitAll()
-					.requestMatchers("/get-access-token").hasRole("REFRESH")
-					.requestMatchers("/**").hasRole("USER")
+					.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/h2-console/**").permitAll() // test
+					.requestMatchers("/*.html", "/*.js", "/*.ico").permitAll() // resource
+					.requestMatchers("/singup", "/login").permitAll() // 使用者驗證相關
+					.requestMatchers("/get-access-token").hasRole("REFRESH") // 取access token
+					.requestMatchers("/user/**").hasRole("USER") // user可以使用的區域
+					.requestMatchers("/admin/**").hasRole("ADMIN") // admin可以使用的區域
 					.anyRequest().authenticated();
 		});
 

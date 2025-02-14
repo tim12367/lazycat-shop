@@ -9,6 +9,11 @@
 			"name": "jwt.public.key",
 			"type": "java.lang.String",
 			"description": "RSA public key 存放位置"
+		},
+		{
+			"name": "h2.tcp.server.enabled",
+			"type": "java.lang.String",
+			"description": "H2 DB是否啟用TCP連線"
 		}
 	]
 }

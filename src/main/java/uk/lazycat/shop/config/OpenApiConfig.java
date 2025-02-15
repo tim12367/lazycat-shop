@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -18,11 +17,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 			email = "shop.lazycat.uk", // 公司email
 			url = "https://shop.lazycat.uk" // 公司網站
 		),
-		description = "OpenApi for spring boot", // 描述
+		description = "OpenApi for lazycat shop", // 描述
 		title = "lazycat shop", // 標題
-		version = "1.0", // 版號
-		license = @License(), // 授權
-		termsOfService = "Terms of service" // 使用條款
+		version = "1.0"//, // 版號
+//		license = @License(), // 授權
+//		termsOfService = "Terms of service" // 使用條款url
 	),
 	servers = { // 環境
 		@Server(
@@ -35,10 +34,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		)
 	},
 	security = @SecurityRequirement(
-		name = "bearerAuth" // 全域套用安全性驗證
+		name = "bearerAuth" // 全域套用下方@SecurityScheme定義的安全性驗證
 	)
 )
-@SecurityScheme(
+@SecurityScheme( // 定義安全性驗證
 	name = "bearerAuth", // 展開後大標
 	scheme = "bearer", // Authorization header，參考RFC 7235
 	type = SecuritySchemeType.HTTP, // 驗證方式，HTTP、OAUTH2...

@@ -19,7 +19,7 @@ import uk.lazycat.shop.mapper.shop.UsersMapper;
 
 @Service
 @Slf4j
-public class LoginService {
+public class AuthenticationService {
 
 	@Autowired
 	private UsersMapper uesrMapper;

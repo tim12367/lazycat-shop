@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 整合測試，透過mockMvc呼叫需要測試的API
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LoginMvcTest {

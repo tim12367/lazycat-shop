@@ -1,29 +1,51 @@
 package uk.lazycat.shop.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-
-@Configuration
+//@formatter:off
+@OpenAPIDefinition(
+	info = @Info(
+		contact = @Contact( // 聯絡方式
+			name = "shop.lazycat.uk", // 公司名稱
+			email = "shop.lazycat.uk", // 公司email
+			url = "https://shop.lazycat.uk" // 公司網站
+		),
+		description = "OpenApi for spring boot", // 描述
+		title = "lazycat shop", // 標題
+		version = "1.0", // 版號
+		license = @License(), // 授權
+		termsOfService = "Terms of service" // 使用條款
+	),
+	servers = { // 環境
+		@Server(
+			description = "Local env",
+			url = "http://localhost:8080"
+		),
+		@Server(
+			description = "Prod env",
+			url = "https://shop.lazycat.uk"
+		)
+	},
+	security = @SecurityRequirement(
+		name = "bearerAuth" // 全域套用安全性驗證
+	)
+)
+@SecurityScheme(
+	name = "bearerAuth", // 展開後大標
+	scheme = "bearer", // Authorization header，參考RFC 7235
+	type = SecuritySchemeType.HTTP, // 驗證方式，HTTP、OAUTH2...
+	description = "Jwt auth", // 展開後詳情
+	bearerFormat = "JWT", // token格式
+	in = SecuritySchemeIn.HEADER // token夾帶位置
+)
+//@formatter:on
 public class OpenApiConfig {
-	private static final String BEARER_AUTH_METHOD = "bearerAuth";
-
-	@Bean
-	OpenAPI customOpenAPI() {
-
-		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList(BEARER_AUTH_METHOD))
-				.info(new Info().title("shop.lazycat.uk"))
-				.components(new Components().addSecuritySchemes(BEARER_AUTH_METHOD,
-						new SecurityScheme().name(BEARER_AUTH_METHOD)
-								.type(SecurityScheme.Type.HTTP)
-								.scheme("bearer")
-								.bearerFormat("JWT")));
-
-	}
-
 }

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class H2ServerConfig {
 
-	@Value("${h2.tcp.server.enabled}")
+	@Value("${h2.tcp.server.enabled:false}")
 	private boolean h2TcpServerEnabled;
 
 	@Bean(initMethod = "start", destroyMethod = "stop")

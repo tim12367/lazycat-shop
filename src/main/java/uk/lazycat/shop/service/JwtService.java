@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import uk.lazycat.shop.entity.shop.Authorities;
 import uk.lazycat.shop.exception.LaztcatException;
-import uk.lazycat.shop.exception.LazycatStatusCode;
 import uk.lazycat.shop.mapper.shop.AuthoritiesMapper;
 
 @Service
@@ -57,7 +56,7 @@ public class JwtService {
 	public String getJwtAccessToken(Authentication authentication) throws LaztcatException {
 		final String username = authentication.getName();
 		if (StringUtils.isBlank(username)) {
-			throw new LaztcatException(LazycatStatusCode.PARAMETER_ERROR.getCode(), "getJwtAccessToken發生錯誤! 驗證內容不含使用者名稱! ");
+			throw new LaztcatException("getJwtAccessToken發生錯誤! 驗證內容不含使用者名稱! ");
 		}
 
 		// 查出使用者所含角色

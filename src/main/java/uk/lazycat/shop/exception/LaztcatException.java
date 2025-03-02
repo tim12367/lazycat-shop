@@ -9,16 +9,16 @@ public class LaztcatException extends Exception {
 		super();
 	}
 
-	public LaztcatException(String errorCode, String errorMessage) {
-		super(errorMessage);
-		this.setErrorCode(errorCode);
-		this.setErrorMessage(errorMessage);
-	}
-
 	public LaztcatException(LazycatStatusCode lazyCatStatusCode) {
 		super(lazyCatStatusCode.getInfo());
 		this.setErrorCode(lazyCatStatusCode.getCode());
 		this.setErrorMessage(lazyCatStatusCode.getInfo());
+	}
+
+	public LaztcatException(String errorMessage) {
+		super(errorMessage);
+		this.setErrorCode(LazycatStatusCode.CUSTOM_ERROR.getCode());
+		this.setErrorMessage(errorMessage);
 	}
 
 	public String getErrorMessage() {

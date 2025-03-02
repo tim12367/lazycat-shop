@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import uk.lazycat.shop.entity.shop.Authorities;
 import uk.lazycat.shop.entity.shop.Users;
 import uk.lazycat.shop.exception.LaztcatException;
-import uk.lazycat.shop.exception.LazycatStatusCode;
 import uk.lazycat.shop.mapper.shop.AuthoritiesMapper;
 import uk.lazycat.shop.mapper.shop.UsersMapper;
 
@@ -43,11 +42,11 @@ public class AuthenticationService {
 	@Transactional
 	public void singUp(String username, String password) throws LaztcatException {
 		if (StringUtils.isAnyBlank(username, password)) {
-			throw new LaztcatException(LazycatStatusCode.CUSTOM_ERROR.getCode(), "註冊時使用者及密碼不得為空");
+			throw new LaztcatException("註冊時使用者及密碼不得為空");
 		}
 
 		if (null != uesrMapper.selectByPrimaryKey(username)) {
-			throw new LaztcatException(LazycatStatusCode.CUSTOM_ERROR.getCode(), "帳號重複註冊!");
+			throw new LaztcatException("帳號重複註冊!");
 		}
 
 		// 插入用戶資料
@@ -74,7 +73,7 @@ public class AuthenticationService {
 	 */
 	public String login(String username, String password) throws LaztcatException {
 		if (StringUtils.isAnyBlank(username, password)) {
-			throw new LaztcatException(LazycatStatusCode.CUSTOM_ERROR.getCode(), "登入時使用者及密碼不得為空");
+			throw new LaztcatException("登入時使用者及密碼不得為空");
 		}
 
 		Users user = uesrMapper.selectByPrimaryKey(username); // 查出使用者
@@ -82,7 +81,7 @@ public class AuthenticationService {
 		// 查無使用者
 		if (null == user) {
 			log.debug("使用者尚未註冊!" + username);
-			throw new LaztcatException(LazycatStatusCode.CUSTOM_ERROR.getCode(), "帳號或密碼錯誤!");
+			throw new LaztcatException("帳號或密碼錯誤!");
 		}
 
 		// 密碼錯誤
@@ -90,7 +89,7 @@ public class AuthenticationService {
 			log.debug(passwordEncoder.encode(password));
 			log.debug(user.getPassword());
 			log.debug("使用者密碼錯誤!" + username);
-			throw new LaztcatException(LazycatStatusCode.CUSTOM_ERROR.getCode(), "帳號或密碼錯誤!");
+			throw new LaztcatException("帳號或密碼錯誤!");
 		}
 
 		// 簽發JWT refresh token

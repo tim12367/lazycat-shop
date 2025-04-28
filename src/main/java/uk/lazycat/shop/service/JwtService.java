@@ -64,7 +64,9 @@ public class JwtService {
 
 		// 簽發access token
 		return this.getJwtToken(username,
-				authorities.stream().map(Authorities::getAuthority).map(authoritie -> "ROLE_" + authoritie).toList(),
+				authorities.stream()
+						.map(Authorities::getAuthority)
+						.map(authoritie -> "ROLE_" + authoritie).toList(),
 				60L * 30L);
 	}
 }

@@ -49,7 +49,7 @@ public class SecurityConfig {
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(); // 預設10
+		return new BCryptPasswordEncoder(12); // 預設10，一般情況下依照雜湊or驗證效能100-250ms之間
 	}
 
 }

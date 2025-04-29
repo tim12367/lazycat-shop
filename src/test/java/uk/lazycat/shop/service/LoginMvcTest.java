@@ -60,6 +60,6 @@ public class LoginMvcTest {
 		String body = mvcResult.getResponse().getContentAsString();
 		System.out.println("返回的body: " + body);
 
-		assertEquals(objectMapper.readTree(body), objectMapper.readTree("{\"code\":\"0002\",\"info\":\"帳號重複註冊!\"}"));
+		assertEquals(objectMapper.readTree(body), objectMapper.readTree("{\"code\":\"9996\",\"info\":\"帳號重複註冊!\"}"));
 	}
 }

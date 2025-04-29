@@ -47,9 +47,13 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+	/**
+	 * 密碼加解密bean
+	 * @return BCryptPasswordEncoder
+	 */
 	@Bean
 	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(12); // 預設10，一般情況下依照雜湊or驗證效能100-250ms之間
+		return new BCryptPasswordEncoder(11); // 預設10，一般情況下依照雜湊or驗證效能100-250ms之間
 	}
 
 }

@@ -1,2 +1,2 @@
 # lazycat
-mobile app
+backend

@@ -28,12 +28,7 @@ public class AuthenticationController {
 	private AuthenticationService authenticationService;
 
 	@Operation(summary = "使用者註冊帳號", description = "使用者註冊帳號", responses = {
-			@ApiResponse(description = "註冊成功", responseCode = "200"),
-			@ApiResponse(description = "重複註冊", responseCode = "400", content = {
-					@Content(schema = @Schema(implementation = String.class, example = "帳號重複註冊!"))
-			})
-	})
-
+			@ApiResponse(description = "重複註冊", responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class, example = "帳號重複註冊!")) }) })
 	@PostMapping("/singup")
 	public void singUp(
 			@NotBlank(message = "使用者不得為空") @Schema(example = "user") @RequestParam String username,
@@ -49,7 +44,8 @@ public class AuthenticationController {
 		return authenticationService.login(username, password); // 登入回傳jwt refresh token
 	}
 
-	@Operation(summary = "取得使用者access token", description = "查詢使用者並返回使用者access token")
+	@Operation(summary = "取得使用者access token", description = "查詢使用者並返回使用者access token", responses = {
+			@ApiResponse(description = "TOKEN錯誤", responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class, example = "TOKEN驗證錯誤")) }) })
 	@PostMapping("/get-access-token")
 	public String getAccessToken(@NotNull(message = "找不到驗證資料!") Authentication authentication) throws LaztcatException {
 		return authenticationService.getAccessToken(authentication); // 登入回傳jwt refresh token

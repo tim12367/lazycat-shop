@@ -54,12 +54,12 @@ public class LoginMvcTest {
 		// 2. mockMvc.perform發起請求
 		MvcResult mvcResult = mockMvc.perform(requestBuilder)
 				.andDo(System.out::println)
-				.andExpect(status().is(200))
+				.andExpect(status().is(400))
 				.andReturn();
 
 		String body = mvcResult.getResponse().getContentAsString();
 		System.out.println("返回的body: " + body);
 
-		assertEquals(objectMapper.readTree(body), objectMapper.readTree("{\"code\":\"9996\",\"info\":\"帳號重複註冊!\"}"));
+		assertEquals(body, "帳號重複註冊!");
 	}
 }

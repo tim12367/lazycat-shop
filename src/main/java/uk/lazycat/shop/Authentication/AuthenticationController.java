@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import uk.lazycat.shop.exception.ErrorMsg;
 import uk.lazycat.shop.exception.LaztcatException;
 
 /**
@@ -30,8 +29,8 @@ public class AuthenticationController {
 
 	@Operation(summary = "使用者註冊帳號", description = "使用者註冊帳號", responses = {
 			@ApiResponse(description = "註冊成功", responseCode = "200"),
-			@ApiResponse(description = "重複註冊", responseCode = "200", content = {
-					@Content(schema = @Schema(implementation = ErrorMsg.class, example = "{\"code\": \"0002\",\"info\": \"帳號重複註冊!\"}"))
+			@ApiResponse(description = "重複註冊", responseCode = "400", content = {
+					@Content(schema = @Schema(implementation = String.class, example = "帳號重複註冊!"))
 			})
 	})
 

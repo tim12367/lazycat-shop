@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,8 +31,6 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
 	// 異常處理 object參數檢核錯誤 (Valid)
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		LazycatStatusCode lazyCatStatusCode = LazycatStatusCode.PARAMETER_ERROR;
-
 		String returnDesc = "";
 		// 將欄位錯誤訊息回傳
 		try {
@@ -46,13 +43,12 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
 			returnDesc += "欄位檢核訊息回傳失敗!";
 		}
 
-		return this.proccessErrorMsgResponseEntity(lazyCatStatusCode.getCode(), lazyCatStatusCode.getInfo().formatted(returnDesc), e, "客製化的錯誤");
+		return this.proccessErrorMsgResponseEntity("請求參數錯誤: %s".formatted(returnDesc), e, "請求參數錯誤");
 	}
 
 	// 異常處理 bean參數檢核錯誤(Validated)
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleMethodBeanNotValid(ConstraintViolationException e) {
-		LazycatStatusCode lazyCatStatusCode = LazycatStatusCode.PARAMETER_ERROR;
 
 		String returnDesc = "";
 		// 將欄位錯誤訊息回傳
@@ -64,7 +60,7 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
 		} catch (Exception e2) {
 			returnDesc += "欄位檢核訊息回傳失敗!";
 		}
-		return this.proccessErrorMsgResponseEntity(lazyCatStatusCode.getCode(), lazyCatStatusCode.getInfo().formatted(returnDesc), e, "客製化的錯誤");
+		return this.proccessErrorMsgResponseEntity("請求參數錯誤: %s".formatted(returnDesc), e, "客製化的錯誤");
 	}
 
 	/**
@@ -75,8 +71,7 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handle(Exception e) {
-		LazycatStatusCode lazyCatStatusCode = LazycatStatusCode.UNKNOWN_ERROR;
-		return this.proccessErrorMsgResponseEntity(lazyCatStatusCode, e, "非預期的錯誤");
+		return this.proccessErrorMsgResponseEntity("非預期的錯誤", e, "非預期的錯誤");
 	}
 
 	/**
@@ -84,36 +79,23 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(LaztcatException.class)
 	public ResponseEntity<Object> handle(LaztcatException e) {
-		String statusCode = e.getErrorCode();
-		String errorMsg = e.getErrorMessage();
-		return this.proccessErrorMsgResponseEntity(statusCode, errorMsg, e, "客製化的錯誤");
+		String errorMsg = e.getMessage();
+		return this.proccessErrorMsgResponseEntity(errorMsg, e, "客製化的錯誤");
 	}
 
 	/** 
 	 * 錯誤訊息處理 + LOG
 	 */
-	private ResponseEntity<Object> proccessErrorMsgResponseEntity(LazycatStatusCode statusCode, Exception e, String logMsgTitle) {
-		return this.proccessErrorMsgResponseEntity(statusCode.getCode(), statusCode.getInfo(), e, logMsgTitle);
-	}
-
-	/** 
-	 * 錯誤訊息處理 + LOG
-	 */
-	private ResponseEntity<Object> proccessErrorMsgResponseEntity(String code, String errorMsg, Exception e, String logMsgTitle) {
+	private ResponseEntity<Object> proccessErrorMsgResponseEntity(String errorMsg, Exception e, String logMsgTitle) {
 		if (StringUtils.isBlank(logMsgTitle)) {
 			logMsgTitle = "發生錯誤";
 		}
-		log.error("%s: [%s] %s".formatted(logMsgTitle, code, errorMsg), e);
-		return this.proccessErrorMsgResponseEntity(code, errorMsg);
+		log.error("%s: [%s] %s".formatted(logMsgTitle, errorMsg, e.getMessage()), e);
+
+		return ResponseEntity
+				.badRequest()
+				.header("Content-type", "text/plain;charset=UTF-8")
+				.body(errorMsg);
 	}
 
-	/**
-	 * 錯誤訊息處理
-	 */
-	private ResponseEntity<Object> proccessErrorMsgResponseEntity(String code, String info) {
-		ErrorMsg errorMsg = new ErrorMsg();
-		errorMsg.setCode(code);
-		errorMsg.setInfo(info);
-		return new ResponseEntity<Object>(errorMsg, HttpStatus.OK);
-	}
 }

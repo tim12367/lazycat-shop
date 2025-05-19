@@ -13,9 +13,9 @@ import uk.lazycat.shop.exception.SecurityExceptionHandler;
 
 @Configuration
 public class SecurityConfig {
-
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http, SecurityExceptionHandler handler) throws Exception {
+		// @formatter:off
 		// 驗證所有請求
 		http.authorizeHttpRequests((requests) -> {
 			requests
@@ -27,6 +27,7 @@ public class SecurityConfig {
 					.requestMatchers("/admin/**").hasRole("ADMIN") // admin可以使用的區域
 					.anyRequest().authenticated();
 		});
+		// @formatter:on
 
 		// 使用stateless不建立session
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -37,12 +38,14 @@ public class SecurityConfig {
 		// <frame>啟用
 		http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
+		// @formatter:off
 		// 設定oauth2.0
 		http.oauth2ResourceServer(oauth2ResourceServer -> {
 			oauth2ResourceServer.jwt(Customizer.withDefaults());
 			oauth2ResourceServer.authenticationEntryPoint((request, response, e) -> handler.handleAuthenticationException(request, response, e));
 			oauth2ResourceServer.accessDeniedHandler((request, response, e) -> handler.handleAccessDeniedException(request, response, e));
 		});
+		// @formatter:on
 
 		return http.build();
 	}

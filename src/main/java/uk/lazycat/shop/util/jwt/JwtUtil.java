@@ -1,4 +1,4 @@
-package uk.lazycat.shop.service;
+package uk.lazycat.shop.util.jwt;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,8 +15,11 @@ import uk.lazycat.shop.entity.shop.Authorities;
 import uk.lazycat.shop.exception.LaztcatException;
 import uk.lazycat.shop.mapper.shop.AuthoritiesMapper;
 
+/**
+ * JWT相關工具
+ */
 @Service
-public class JwtService {
+public class JwtUtil {
 
 	@Autowired
 	private JwtEncoder jwtEncoder;
@@ -25,7 +28,7 @@ public class JwtService {
 	private AuthoritiesMapper authoritiesMapper;
 
 	/**
-	 * 簽發Jwt token
+	 * 客製化簽發JWT token
 	 * 
 	 * @param username      使用者
 	 * @param roles         存取角色(複數)
@@ -47,7 +50,7 @@ public class JwtService {
 	}
 
 	/**
-	 * 簽發 jwt access token
+	 * 簽發 JWT access token
 	 * 
 	 * @param authentication
 	 * @return jwt access token

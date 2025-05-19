@@ -1,4 +1,4 @@
-package uk.lazycat.shop.service;
+package uk.lazycat.shop.Authentication;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ import uk.lazycat.shop.entity.shop.Users;
 import uk.lazycat.shop.exception.LaztcatException;
 import uk.lazycat.shop.mapper.shop.AuthoritiesMapper;
 import uk.lazycat.shop.mapper.shop.UsersMapper;
+import uk.lazycat.shop.util.jwt.JwtUtil;
 
 @Service
 @Slf4j
@@ -30,7 +31,7 @@ public class AuthenticationService {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private JwtService jwtService;
+	private JwtUtil jwtUtil;
 
 	/**
 	 * 註冊
@@ -93,7 +94,7 @@ public class AuthenticationService {
 		}
 
 		// 簽發JWT refresh token
-		return jwtService.getJwtToken(username, List.of("ROLE_REFRESH"), 365L * 24L * 60L * 60L); // jwt refresh token
+		return jwtUtil.getJwtToken(username, List.of("ROLE_REFRESH"), 365L * 24L * 60L * 60L); // jwt refresh token
 	}
 
 	/**
@@ -104,6 +105,6 @@ public class AuthenticationService {
 	 * @throws LaztcatException
 	 */
 	public String getAccessToken(Authentication authentication) throws LaztcatException {
-		return jwtService.getJwtAccessToken(authentication);
+		return jwtUtil.getJwtAccessToken(authentication);
 	}
 }

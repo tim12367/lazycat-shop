@@ -1,4 +1,4 @@
-package uk.lazycat.shop.controller;
+package uk.lazycat.shop.Authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import uk.lazycat.shop.exception.ErrorMsg;
 import uk.lazycat.shop.exception.LaztcatException;
-import uk.lazycat.shop.service.AuthenticationService;
 
 /**
  * 登入(取refresh token)、註冊、取得access-token
@@ -35,6 +34,7 @@ public class AuthenticationController {
 					@Content(schema = @Schema(implementation = ErrorMsg.class, example = "{\"code\": \"0002\",\"info\": \"帳號重複註冊!\"}"))
 			})
 	})
+
 	@PostMapping("/singup")
 	public void singUp(
 			@NotBlank(message = "使用者不得為空") @Schema(example = "user") @RequestParam String username,

@@ -45,7 +45,9 @@ public class AuthenticationController {
 	}
 
 	@Operation(summary = "取得使用者access token", description = "查詢使用者並返回使用者access token", responses = {
-			@ApiResponse(description = "TOKEN錯誤", responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class, example = "TOKEN驗證錯誤")) }) })
+			@ApiResponse(description = "取得token成功", responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class, example = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJsYXp5Y2F0LnVrIiwic3ViIjoidGVzdDEyMyIsImV4cCI6MTc0NzYzODg1OSwiaWF0IjoxNzQ3NjM3MDU5LCJzY29wZSI6IlJPTEVfVVNFUiJ9.hYW5mpRgFMxQsaWbXIRE_318Jd5uE_MOshtQVLm-A_YthcpzgwCWaWjIiMrPTbssicI5SAQJJO8quv3UNRgGg9v1_wU7v-aX_Hw8pFk76oVJLve45EOZtcuUORxyfVbe88DYGCTCqUeSiPaxa6frcCF4fMtzig91tShd-v4HeAw9C_j1PT_LOp_52t3HRORWU1FVEvhF4_4cA6iTSb1wRhvJClCYPlfyf6k9yHQNrQGhhGhtUvoilG3LAzNy9xMgByjY0VGJrljw6VjisueadqbzcaeLaN8fIUe18PC-BRpNmXYBbWKNcwQKKIC8jipYRvxI8Ha2ifNwrTAr-w7JcQ")) }),
+			@ApiResponse(description = "TOKEN錯誤", responseCode = "401", content = { @Content(schema = @Schema(implementation = String.class, example = "TOKEN驗證錯誤")) }),
+			@ApiResponse(description = "TOKEN權限錯誤", responseCode = "403", content = { @Content(schema = @Schema(implementation = String.class, example = "TOKEN權限被拒")) }) })
 	@PostMapping("/get-access-token")
 	public String getAccessToken(@NotNull(message = "找不到驗證資料!") Authentication authentication) throws LaztcatException {
 		return authenticationService.getAccessToken(authentication); // 登入回傳jwt refresh token

@@ -32,3 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 .$lazycat-shop.drawio.bkp
+src/main/resources/app.key
+src/main/resources/app.pub

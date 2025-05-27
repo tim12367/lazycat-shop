@@ -1,5 +1,6 @@
 package uk.lazycat.shop.util.jwt;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.List;
 
@@ -57,16 +58,16 @@ public class JwtUtil {
 	 * @throws LaztcatException
 	 */
 	public String getJwtAccessToken(Authentication authentication) throws LaztcatException {
-		final String username = authentication.getName();
-		if (StringUtils.isBlank(username)) {
-			throw new LaztcatException("getJwtAccessToken發生錯誤! 驗證內容不含使用者名稱! ");
+		final String userId = authentication.getName();
+		if (StringUtils.isBlank(userId)) {
+			throw new LaztcatException("getJwtAccessToken發生錯誤! 驗證內容不含使用者ID! ");
 		}
 
 		// 查出使用者所含角色
-		List<Authorities> authorities = authoritiesMapper.selectByUsername(username);
+		List<Authorities> authorities = authoritiesMapper.selectByUserId(new BigInteger(userId));
 
 		// 簽發access token
-		return this.getJwtToken(username,
+		return this.getJwtToken(userId,
 				authorities.stream()
 						.map(Authorities::getAuthority)
 						.map(authoritie -> "ROLE_" + authoritie).toList(),

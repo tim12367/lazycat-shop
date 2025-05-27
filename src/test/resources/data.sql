@@ -1,9 +1,8 @@
-DELETE FROM SHOP.AUTHORITIES;
-DELETE FROM SHOP.USERS;
+DELETE FROM shop.authorities;
+DELETE FROM shop.users;
 
-INSERT INTO SHOP.users(username, password, enabled)
-VALUES ('test123', '$2a$10$w6R2N5NYd9kNcvWUzsn4aeEmeykpag5vYVtBe6ZQVv18UmpAkFMBC', true);
+INSERT INTO shop.users(user_id, username, password, enabled)
+VALUES (1, 'test123', '$2a$10$w6R2N5NYd9kNcvWUzsn4aeEmeykpag5vYVtBe6ZQVv18UmpAkFMBC', true);
 
-INSERT INTO SHOP.AUTHORITIES
-(USERNAME, AUTHORITY)
-VALUES('test123', 'USER');
+INSERT INTO shop.authorities(user_id, authority)
+VALUES(1, 'USER');

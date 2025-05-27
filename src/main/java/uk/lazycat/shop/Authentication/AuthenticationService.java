@@ -1,5 +1,6 @@
 package uk.lazycat.shop.Authentication;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,12 +47,17 @@ public class AuthenticationService {
 			throw new LaztcatException("註冊時使用者及密碼不得為空");
 		}
 
-		if (null != uesrMapper.selectByPrimaryKey(username)) {
+		if (null != uesrMapper.selectByUserName(username)) {
 			throw new LaztcatException("帳號重複註冊!");
 		}
 
+		// 查出最大UID
+		BigInteger maxUserId = uesrMapper.selectMaxUserId();
+		BigInteger userId = maxUserId.add(BigInteger.ONE);
+
 		// 插入用戶資料
 		uesrMapper.insert(Users.builder()
+				.userId(userId)
 				.username(username)
 				.password(passwordEncoder.encode(password)) // Hash存入密碼
 				.enabled(true) // 預設帳號啟用狀態
@@ -59,7 +65,7 @@ public class AuthenticationService {
 
 		// 插入用戶預設角色
 		authoritiesMapper.insert(Authorities.builder()
-				.username(username)
+				.userId(userId)
 				.authority("USER") // 預設角色
 				.build());
 	}
@@ -77,7 +83,7 @@ public class AuthenticationService {
 			throw new LaztcatException("登入時使用者及密碼不得為空");
 		}
 
-		Users user = uesrMapper.selectByPrimaryKey(username); // 查出使用者
+		Users user = uesrMapper.selectByUserName(username); // 查出使用者
 
 		// 查無使用者
 		if (null == user) {
@@ -94,7 +100,7 @@ public class AuthenticationService {
 		}
 
 		// 簽發JWT refresh token
-		return jwtUtil.getJwtToken(username, List.of("ROLE_REFRESH"), 365L * 24L * 60L * 60L); // jwt refresh token
+		return jwtUtil.getJwtToken(user.getUserId().toString(), List.of("ROLE_REFRESH"), 365L * 24L * 60L * 60L); // jwt refresh token
 	}
 
 	/**

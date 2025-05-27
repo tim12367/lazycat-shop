@@ -1,5 +1,6 @@
 package uk.lazycat.shop.mapper.shop;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -11,6 +12,6 @@ public interface AuthoritiesMapper {
 	int insert(Authorities row);
 
 	List<Authorities> selectAll();
-
-	List<Authorities> selectByUsername(String username);
+	
+	List<Authorities> selectByUserId(BigInteger userId);
 }

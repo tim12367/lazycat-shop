@@ -2,33 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="uk.lazycat.shop.mapper.shop.UsersMapper">
   <resultMap id="BaseResultMap" type="uk.lazycat.shop.entity.shop.Users">
-    <id column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <id column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
     <result column="ENABLED" jdbcType="BOOLEAN" property="enabled" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from SHOP.USERS
-    where USERNAME = #{username,jdbcType=VARCHAR}
-  </delete>
   <insert id="insert" parameterType="uk.lazycat.shop.entity.shop.Users">
-    insert into SHOP.USERS (USERNAME, PASSWORD, ENABLED
-      )
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN}
-      )
+    insert into SHOP.USERS (USER_ID, USERNAME, PASSWORD, ENABLED)
+    values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="uk.lazycat.shop.entity.shop.Users">
-    update SHOP.USERS
-    set PASSWORD = #{password,jdbcType=VARCHAR},
-      ENABLED = #{enabled,jdbcType=BOOLEAN}
-    where USERNAME = #{username,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select USERNAME, PASSWORD, ENABLED
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select USER_ID, USERNAME, PASSWORD, ENABLED
     from SHOP.USERS
     where USERNAME = #{username,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select USERNAME, PASSWORD, ENABLED
-    from SHOP.USERS
+  <select id="selectMaxUserId">
+    SELECT MAX(USER_ID) FROM shop.users;
   </select>
 </mapper>

@@ -1,15 +1,11 @@
 spring: 
    application: 
      name: shop # app name
-   h2:
-     console:
-       enabled: true # h2控制台 http://localhost:8080/h2-console
    datasource: 
-     driver-class-name: org.h2.Driver
-     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE # in memory 只能用h2-console操作、jdbc:h2:~/test # in file 能持久儲存，但只能單一連線
-     username: sa
-     password: 
-h2.tcp.server.enabled: true # 是否啟用H2 tcp server
+     driver-class-name: org.postgresql.Driver
+     url: jdbc:postgresql://localhost:5432/postgres
+     username: ${DB_SHOP_USER}
+     password: ${DB_SHOP_PASSWORD}
 
 # log 設定
 logging: 
@@ -18,7 +14,7 @@ logging:
     root: INFO
     "[uk.lazycat.shop]": DEBUG
 
-spring.output.ansi.enabled: ALWAYS # 彩色LOG
+spring.output.ansi.enabled: ALWAYS # VSCode彩色LOG
 
 # mybatis 設定
 mybatis:

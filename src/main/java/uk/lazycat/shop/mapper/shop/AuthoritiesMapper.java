@@ -10,8 +10,6 @@ import uk.lazycat.shop.entity.shop.Authorities;
 @Mapper
 public interface AuthoritiesMapper {
 	int insert(Authorities row);
-
-	List<Authorities> selectAll();
 	
 	List<Authorities> selectByUserId(BigInteger userId);
 }

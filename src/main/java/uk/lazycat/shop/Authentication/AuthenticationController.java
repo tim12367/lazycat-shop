@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,8 +12,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import uk.lazycat.shop.Authentication.request.LoginRequest;
+import uk.lazycat.shop.Authentication.request.SignupRequest;
 import uk.lazycat.shop.exception.LaztcatException;
 
 /**
@@ -30,18 +31,14 @@ public class AuthenticationController {
 	@Operation(summary = "使用者註冊帳號", description = "使用者註冊帳號", responses = {
 			@ApiResponse(description = "重複註冊", responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class, example = "帳號重複註冊!")) }) })
 	@PostMapping("/singup")
-	public void singUp(
-			@NotBlank(message = "使用者不得為空") @Schema(example = "user") @RequestParam String username,
-			@NotBlank(message = "密碼不得為空") @Schema(example = "dummy") @RequestParam String password) throws LaztcatException {
-		authenticationService.singUp(username, password);
+	public void singUp(@RequestBody SignupRequest signupRequest) throws LaztcatException {
+		authenticationService.singUp(signupRequest.getUsername(), signupRequest.getPassword());
 	}
 
 	@Operation(summary = "使用者登入", description = "登入並回傳refresh token")
 	@PostMapping("/login")
-	public String login(
-			@NotBlank(message = "使用者不得為空") @Schema(example = "test123") @RequestParam String username,
-			@NotBlank(message = "密碼不得為空") @Schema(example = "dummy") @RequestParam String password) throws LaztcatException {
-		return authenticationService.login(username, password); // 登入回傳jwt refresh token
+	public String login(@RequestBody LoginRequest loginRequest) throws LaztcatException {
+		return authenticationService.login(loginRequest.getUsername(), loginRequest.getPassword()); // 登入回傳jwt refresh token
 	}
 
 	@Operation(summary = "取得使用者access token", description = "查詢使用者並返回使用者access token", responses = {

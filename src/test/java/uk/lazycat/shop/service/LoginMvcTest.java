@@ -35,8 +35,13 @@ public class LoginMvcTest {
 		// 1. 創建 requestBuilder 負責設定相關請求參數
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/singup")
-				.param("username", "user")
-				.param("password", "dummy");
+				.contentType("application/json")
+				.content("""
+						{
+							"username":"user",
+							"password":"dummy"
+						}
+						""");
 		// 2. mockMvc.perform發起請求
 		MvcResult mvcResult = mockMvc.perform(requestBuilder)
 				.andDo(System.out::println)
@@ -55,8 +60,13 @@ public class LoginMvcTest {
 		// 1. 創建 requestBuilder 負責設定相關請求參數
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/singup")
-				.param("username", "test123")
-				.param("password", "dummy");
+				.contentType("application/json")
+				.content("""
+						{
+							"username":"test123",
+							"password":"dummy"
+						}
+						""");
 		// 2. mockMvc.perform發起請求
 		MvcResult mvcResult = mockMvc.perform(requestBuilder)
 				.andDo(System.out::println)
@@ -77,8 +87,13 @@ public class LoginMvcTest {
 		// 1. 創建 requestBuilder 負責設定相關請求參數
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/login")
-				.param("username", "test123")
-				.param("password", "dummy");
+				.contentType("application/json")
+				.content("""
+						{
+							"username":"test123",
+							"password":"dummy"
+						}
+						""");
 		// 2. mockMvc.perform發起請求
 		MvcResult mvcResult = mockMvc.perform(requestBuilder)
 				.andDo(System.out::println)

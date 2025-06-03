@@ -13,6 +13,7 @@ logging:
   level: 
     root: INFO
     "[uk.lazycat.shop]": DEBUG
+    "[org.springframework.web.filter.CommonsRequestLoggingFilter]": DEBUG
 
 spring.output.ansi.enabled: ALWAYS # VSCode彩色LOG
 

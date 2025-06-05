@@ -9,7 +9,7 @@
   </resultMap>
   <insert id="insert" parameterType="uk.lazycat.shop.entity.shop.Users">
     insert into SHOP.USERS (USER_ID, USERNAME, PASSWORD, ENABLED)
-    values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN})
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{enabled,jdbcType=BOOLEAN})
   </insert>
   <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select USER_ID, USERNAME, PASSWORD, ENABLED
@@ -18,5 +18,25 @@
   </select>
   <select id="selectMaxUserId">
     SELECT MAX(USER_ID) FROM shop.users;
+  </select>
+  <resultMap id="UsersAndRolesMap" type="uk.lazycat.shop.entity.shop.UsersAndRoles">
+    <id column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="ENABLED" jdbcType="BOOLEAN" property="enabled" />
+    <result column="authoritys" jdbcType="VARCHAR" property="authoritys" />
+  </resultMap>
+  <!--查詢使用者及其角色(不包括密碼)-->
+  <select id="selectUsersAndRoles" resultMap="UsersAndRolesMap">
+	SELECT 
+		u.user_id , 
+		u.username, 
+		u.enabled, 
+		string_agg(a.authority, ',') as authoritys -- 使用者角色(逗號分割)
+	FROM shop.users u
+	LEFT JOIN shop.authorities a on u.user_id = a.user_id
+	<if test="userId != null and userId != ''">
+		WHERE u.user_id = #{userId,jdbcType=BIGINT}
+	</if>
+	GROUP BY u.user_id
   </select>
 </mapper>

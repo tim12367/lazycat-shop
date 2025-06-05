@@ -43,7 +43,7 @@ public class JwtUtil {
 				.issuedAt(now)
 				.expiresAt(now.plusSeconds(expTimeSecond))
 				.subject(username)
-				.claim("scope", String.join(",", roles))
+				.claim("scope", String.join(" ", roles))
 				.build();
 
 		JwtEncoderParameters parameter = JwtEncoderParameters.from(claims);
